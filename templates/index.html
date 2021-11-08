@@ -3,13 +3,38 @@
 
 {% block head %}
 <title>Task Master</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 {% block body %}
 
 {% block navbar %}
-<div class="navbar navbar-fixed-top">
-  Navbar div
+<div class="nav-bar-userprofile">
+  <ul class="nav-user-ul">
+      <li class="nav-user-li">
+        <a href="{{url_for('index')}}">Home</a>
+      </li>
+      <li class="nav-user-li">
+        <a href="{{url_for('logout')}}">Logout</a>
+      </li>
+      <li class="nav-user-li">
+        <a href="ViewSellingItems.php">Test</a>
+      </li>
+
+      <div class="nav-right">
+    
+        <li class="nav-user-li">
+          <a href="UploadVinyl.php">Test</a>
+        </li>
+          
+        <li class="nav-user-li">
+          <form action="">
+            <button type="submit" value="logout"><b>Test</b></button>
+          </form>
+        </li>
+
+      </div>
+  </ul>
 </div>
 {% endblock %}
 
@@ -22,13 +47,19 @@
 
   <table>
     <tr>
+      <th>Project</th>
       <th>Task</th>
-      <th>Added</th>
+      <th>Name</th>
+      <th>Stage</th>
+      <th>Last Updated</th>
     </tr>
     {% for task in tasks %}
       <tr>
-        <td>{{ task.content}} </td>
-        <td>{{ task.date_created.date() }}</td>
+        <td>{{ task.project }} </td>
+        <td>{{ task.job }} </td>
+        <td>{{ task.name }} </td>
+        <td>{{ task.stage }} </td>
+        <td>{{ task.date.date() }}</td>
         <td>
           <button><a href="/delete/{{task.id}}">Delete</a></button>
         </td>
@@ -41,8 +72,13 @@
   {% endif %}
 
   <form action="/" method="POST">
-    <input type="text" name="content" id="content">
+    <input type="text" name="project" class="content" id="content" placeholder="Project">
+    <input type="text" name="job" class="content" id="content" placeholder="Job">
+    <input type="text" name="name" class="content" id="content" placeholder="Name">
+    <input type="text" name="stage" class="content" id="content" placeholder="Stage">
     <input type="submit" value="Add Task">
   </form>
 </div>
+
+<a href="{{ url_for('logout')}}">Logout Here</a>
 {% endblock %}

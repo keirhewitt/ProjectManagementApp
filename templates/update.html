@@ -9,7 +9,10 @@
   <h1 style="text-align: center;">Update Master</h1>
 
   <form action="/update/{{task.id}}" method="POST">
-    <input type="text" name="content" id="content" value="{{task.content}}">
+    <input type="text" name="project" class="content" id="content" value="{{task.project}}">
+    <input type="text" name="job" class="content" id="content" value="{{task.job}}">
+    <input type="text" name="name" class="content" id="content" value="{{task.name}}">
+    <input type="text" name="stage" class="content" id="content" value="{{task.stage}}">
     <input type="submit" value="Update">
   </form>
 </div>
