@@ -182,7 +182,6 @@ class TaskCreationForm(FlaskForm):
 @app.route('/', methods=['GET','POST'])
 @login_required
 def index():
-    error = None
     form = RoomEntryForm()
 
     if form.validate_on_submit():
@@ -191,10 +190,10 @@ def index():
             if bcrypt.check_password_hash(room.password, form.password.data):
                 flash("Room login accepted.")
                 return redirect(url_for('room',room_name=room.name))
-        error = 'Invalid room credentials'
 
     rooms = Room.query.order_by(Room.name).all()
-    return render_template('index.html', form=form, rooms=rooms, error=error)
+    errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
+    return render_template('index.html', form=form, rooms=rooms, errors=errors)
 
 # ----------------------------------------------------------------------------
 # ---------------------------------------
@@ -209,26 +208,27 @@ def room(room_name):
     form = TaskCreationForm()
     room = Room.query.filter_by(name=room_name).first()
     tasks = Task.query.filter_by(key=room.key).order_by(Task.date).all()
-    
+
     # If a 'New Task' form has been submitted, try and push it to the db
-    if request.method == "POST":
-        if form.validate_on_submit():
-            new_task = Task(
-                key=room.key,
-                project=form.project.data,
-                job=form.job.data,
-                assignee=form.assignee.data,
-                progress=form.progress.data
-            )
-            try:
-                db.session.add(new_task)
-                db.session.commit()
-                flash("Task added.")
-                return redirect(url_for('room',room_name=room.name))
-            except:
-                flash("There was an error when trying to add this Task.")
-                return redirect(url_for('room',room_name=room.name))
-    return render_template('room.html', tasks=tasks, form=form)
+    if form.validate_on_submit():
+        new_task = Task(
+            key=room.key,
+            project=form.project.data,
+            job=form.job.data,
+            assignee=form.assignee.data,
+            progress=form.progress.data
+        )
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            flash("Task added.")
+            return redirect(url_for('room',room_name=room.name))
+        except:
+            flash("There was an error when trying to add this Task.")
+            return redirect(url_for('room',room_name=room.name))
+
+    errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
+    return render_template('room.html', tasks=tasks, form=form, errors=errors)
 
 # Creating a room
 @app.route('/create/room', methods=['POST','GET'])
@@ -246,7 +246,9 @@ def create_room():
         db.session.commit()
         # Redirect to index page on succesfull Room creation
         return redirect(url_for('index'))
-    return render_template('create-room.html',form=form)
+    
+    errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
+    return render_template('create-room.html',form=form,errors=errors)
         
 
 # ----------------------------------------------------------------------------

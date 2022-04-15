@@ -6,39 +6,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
+{{ super() }}
+{% block pagetitle %} Current Room {% endblock %}
+
 {% block body %}
-
-{% block navbar %}
-<div class="nav-bar-userprofile">
-  <ul class="nav-user-ul">
-      <li class="nav-user-li">
-        <a href="{{url_for('index')}}">Home</a>
-      </li>
-      <li class="nav-user-li">
-        <a href="{{url_for('create_room')}}">Create Room</a>
-      </li>
-
-      <div class="page-title-nav">
-        <li class="nav-user-li">
-            <p style="margin-block-start: 0;">{{ room_name }}</p>
-        </li>
-      </div>
-
-      <div class="nav-right">
-    
-        <li class="nav-user-li">
-          <a href="{{url_for('login')}}">Login</a>
-        </li>
-          
-        <li class="nav-user-li">
-          <a href="{{url_for('logout')}}">Logout</a>
-        </li>
-
-      </div>
-  </ul>
-</div>
-
-{% endblock %}
 
 <h1>{{room_name}}</h1>
 
@@ -49,10 +20,13 @@
     <h4 style="text-align: center;">There are no tasks. Create one below!</h4>
   {% else %}
 
-  {% if error %}
-    <p class="error-message"><strong>Error:</strong> {{ error }}
-  {% else %}
-  {% endif %}
+  <ul>
+    {% for field in errors %}
+      {% for message in field.messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
 
   {% with messages = get_flashed_messages() %}
     {% if messages %}

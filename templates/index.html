@@ -1,44 +1,15 @@
 
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block head %}
 <title>Tasks</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
+{{ super() }}
+{% block pagetitle %} Room Login {% endblock %}
+
 {% block body %}
-
-{% block navbar %}
-
-<div class="nav-bar-userprofile"> <!-- Left side of nav bar -->
-    <ul class="nav-user-ul">
-        <li class="nav-user-li">
-          <a href="{{url_for('index')}}">Home</a>
-        </li>
-        <li class="nav-user-li">
-          <a href="{{url_for('create_room')}}">Create Room</a>
-        </li>
-
-        <div class="page-title-nav">
-          <li class="nav-user-li">
-              <p style="margin-block-start: 0;">Login to a room</p>
-          </li>
-        </div>
-  
-        <div class="nav-right"> <!-- Right side of nav bar -->
-          <li class="nav-user-li">
-            <a href="{{url_for('login')}}">User Login</a>
-          </li>
-            
-          <li class="nav-user-li">
-            <a href="{{url_for('logout')}}">User Logout</a>
-          </li>
-  
-        </div>
-    </ul>
-  </div>
-
-{% endblock %}
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -67,9 +38,13 @@
     to be brought to your room.</h5>
 </div>
 
-{% if error %}
-  <p class="error-message"><strong>Error:</strong> {{ error }}
-{% endif %}
+<ul>
+  {% for field in errors %}
+    {% for message in field.messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  {% endfor %}
+</ul>
 
 <div class="home-container-wrapper">        <!-- Main background -->
   <div class="form-background">             <!-- Form background box -->
