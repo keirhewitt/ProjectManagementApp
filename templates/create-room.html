@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Tasks</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+
+{% block navbar %}
+<div class="nav-bar-userprofile">
+  <ul class="nav-user-ul">
+      <li class="nav-user-li"><a href="{{url_for('index')}}">Home</a></li>
+      <li class="nav-user-li"><a href="{{url_for('create_room')}}">Create Room</a></li>
+
+      <div class="page-title-nav">
+        <li class="nav-user-li"><p style="margin-block-start: 0;">Create a room</p></li>
+      </div>
+
+      <div class="nav-right">
+        <li class="nav-user-li"><a href="{{url_for('login')}}">Login</a></li>
+        <li class="nav-user-li"><a href="{{url_for('logout')}}">Logout</a></li>
+      </div>
+  </ul>
+</div>
+{% endblock %}
+
+<h1>Create a Room</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <h1>{{ message }}</h1>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="room-selector-container">
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.room_key }}
+        {{ form.room_name }}
+        {{ form.password }}
+        {{ form.confirm_pass }}
+        {{ form.submit }}
+    </form>
+</div>
+
+{% endblock %}

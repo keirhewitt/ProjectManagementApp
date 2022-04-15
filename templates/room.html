@@ -1,0 +1,101 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+<title>{{room_name}}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+
+{% block navbar %}
+<div class="nav-bar-userprofile">
+  <ul class="nav-user-ul">
+      <li class="nav-user-li">
+        <a href="{{url_for('index')}}">Home</a>
+      </li>
+      <li class="nav-user-li">
+        <a href="{{url_for('create_room')}}">Create Room</a>
+      </li>
+
+      <div class="page-title-nav">
+        <li class="nav-user-li">
+            <p style="margin-block-start: 0;">{{ room_name }}</p>
+        </li>
+      </div>
+
+      <div class="nav-right">
+    
+        <li class="nav-user-li">
+          <a href="{{url_for('login')}}">Login</a>
+        </li>
+          
+        <li class="nav-user-li">
+          <a href="{{url_for('logout')}}">Logout</a>
+        </li>
+
+      </div>
+  </ul>
+</div>
+
+{% endblock %}
+
+<h1>{{room_name}}</h1>
+
+<div class="content">
+  <h1 style="text-align: center;">Tasks</h1>
+
+  {% if tasks|length < 1%}  <!-- If the room contains no tasks -->
+    <h4 style="text-align: center;">There are no tasks. Create one below!</h4>
+  {% else %}
+
+  {% if error %}
+    <p class="error-message"><strong>Error:</strong> {{ error }}
+  {% else %}
+  {% endif %}
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <h1>{{ message }}</h1>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <table>
+    <tr>
+      <th>Project</th>
+      <th>Task</th>
+      <th>Assignee</th>
+      <th>Progress</th>
+      <th>Last Updated</th>
+    </tr>
+    {% for task in tasks %}
+      <tr>
+        <td>{{ task.project }} </td>
+        <td>{{ task.job }} </td>
+        <td>{{ task.assignee }} </td>
+        <td>{{ task.progress }} </td>
+        <td>{{ task.date }}</td>
+        <td>
+          <button><a href="/delete/{{task.key}}">Delete</a></button>
+        </td>
+        <td>
+          <button><a href="/update/{{task.key}}">Update</a></button>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+
+  <form method="POST" action="">
+    {{ form.hidden_tag() }}
+    {{ form.project }}
+    {{ form.job }}
+    {{ form.assignee }}
+    {{ form.progress }}
+    {{ form.submit }}
+  </form>
+</div>
+
+{% endblock %}

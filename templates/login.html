@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Tasks</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% endblock %}
+
+{% block body %}
+
+{% block navbar %}
+<div class="nav-bar-userprofile">
+    <ul class="nav-user-ul">
+        <li class="nav-user-li">
+          <a href="{{url_for('index')}}">Home</a>
+        </li>
+        <li class="nav-user-li">
+          <a href="{{url_for('create_room')}}">Create Room</a>
+        </li>
+  
+        <div class="page-title-nav">
+          <li class="nav-user-li">
+            <p style="margin-block-start: 0;">Login</p>
+          </li>
+        </div>
+
+        <div class="nav-right">
+      
+          <li class="nav-user-li">
+            <a href="{{url_for('login')}}">Login</a>
+          </li>
+            
+          <li class="nav-user-li">
+            <a href="{{url_for('logout')}}">Logout</a>
+          </li>
+  
+        </div>
+    </ul>
+  </div>
+{% endblock %}
+
+<h1>Login Page</h1>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <h1>{{ message }}</h1>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    {{ form.username }}
+    {{ form.password }}
+    {{ form.submit }}
+</form>
+
+<a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
+
+{% endblock %}
