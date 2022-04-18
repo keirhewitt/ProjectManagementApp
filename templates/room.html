@@ -32,6 +32,7 @@
     <div class="alert-{{category}}">{{ message }}</div>
   {% endfor %}
 
+  <!--
   <table>
     <tr>
       <th>Project</th>
@@ -39,6 +40,7 @@
       <th>Assignee</th>
       <th>Progress</th>
       <th>Last Updated</th>
+      <th>Description</th>
     </tr>
     {% for task in tasks %}
       <tr>
@@ -47,24 +49,19 @@
         <td>{{ task.assignee }} </td>
         <td>{{ task.progress }} </td>
         <td>{{ task.date }}</td>
+        <td>{{ task.description }}</td>
         <td>
-          <button><a href="/delete/{{task.key}}">Delete</a></button>
+          <button><a href="/delete/{{task.id}}">Delete</a></button>
         </td>
         <td>
-          <button><a href="/update/{{task.key}}">Update</a></button>
+          <button><a href="/update/{{task.id}}">Update</a></button>
         </td>
       </tr>
     {% endfor %}
   </table>
-  {% endif %}
-
-  <form method="POST" action="">
-    {{ form.hidden_tag() }}
-    {{ form.project }}
-    {{ form.job }}
-    {{ form.assignee }}
-    {{ form.progress }}
-    {{ form.submit }}
+  {% endif %}-->
+  <form action="" method="POST">
+    <button type="submit" class="btn btn-default">Add Task</button>
   </form>
 </div>
 

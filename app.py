@@ -49,7 +49,8 @@ class Task(db.Model):
     job = db.Column(db.String(200))
     assignee = db.Column(db.String(40))
     progress = db.Column(db.String(200))
-    date = db.Column(db.String(30), default=now.strftime("%m/%d/%Y %H:%M:%S"))
+    description = db.Column(db.UnicodeText(), nullable=False)
+    date = db.Column(db.String(30), default=now.strftime("%m/%d/%Y %H:%M"))
 
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -169,6 +170,8 @@ class TaskCreationForm(FlaskForm):
         min=1, max=60
     )], render_kw={"placeholder": "Progress"})
 
+    description = StringField(render_kw={"placeholder": "Description"})
+
     submit = SubmitField("Add Task")
 
 
@@ -206,30 +209,16 @@ def index():
 @login_required
 def room(room_name):
     # Room contains a Task creation form and displays current Tasks active in current Room
-    form = TaskCreationForm()
+    if request.method == 'POST':
+        return redirect(url_for('create_task'))
     room = Room.query.filter_by(name=room_name).first()
     tasks = Task.query.filter_by(key=room.key).order_by(Task.date).all()
+    return render_template('room.html', tasks=tasks)
 
-    # If a 'New Task' form has been submitted, try and push it to the db
-    if form.validate_on_submit():
-        new_task = Task(
-            key=room.key,
-            project=form.project.data,
-            job=form.job.data,
-            assignee=form.assignee.data,
-            progress=form.progress.data
-        )
-        try:
-            db.session.add(new_task)
-            db.session.commit()
-            flash('Task added.', 'success')
-            return redirect(url_for('room',room_name=room.name))
-        except:
-            flash('There was an error when trying to add this Task.', 'info')
-            return redirect(url_for('room',room_name=room.name))
-
-    errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
-    return render_template('room.html', tasks=tasks, form=form, errors=errors)
+@app.route('/create/task')
+@login_required
+def create_task():
+    return render_template('create-task.html')
 
 # Creating a room
 @app.route('/create/room', methods=['POST','GET'])
@@ -300,10 +289,10 @@ def register():
 # ---------- Update/Delete Tasks 
 
 # Delete Task item
-@app.route('/delete/<string:key>')
+@app.route('/delete/<int:id>')
 @login_required
-def delete(key):
-    task_to_delete = Task.query.filter_by(key=key).first()
+def delete(id):
+    task_to_delete = Task.query.filter_by(id=id).first()
     room = Room.query.filter_by(key=task_to_delete.key).first().name
 
     try:
@@ -316,17 +305,18 @@ def delete(key):
         return redirect(url_for('room', room_name=room))
 
 # Update Task item
-@app.route('/update/<string:key>', methods=['GET','POST'])
+@app.route('/update/<int:id>', methods=['GET','POST'])
 @login_required
-def update(key):
-    task_to_update = Task.query.filter_by(key=key).first()
+def update(id):
+    task_to_update = Task.query.filter_by(id=id).first()
 
     if request.method == 'POST':
         task_to_update.project = request.form['project']
         task_to_update.job = request.form['job']
         task_to_update.assignee = request.form['assignee']
         task_to_update.progress = request.form['progress']
-        task_to_update.date = s1 = now.strftime("%m/%d/%Y %H:%M:%S")
+        task_to_update.description = request.form['description']
+        task_to_update.date = s1 = now.strftime("%m/%d/%Y %H:%M")
         try:
             db.session.commit()
             flash('Task updated successfully.', 'success')

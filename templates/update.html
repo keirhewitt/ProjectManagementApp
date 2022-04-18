@@ -16,7 +16,7 @@
     <div class="alert-{{category}}">{{ message }}</div>
   {% endfor %}
 
-  <form action="/update/{{task.key}}" method="POST">
+  <form action="/update/{{task.id}}" method="POST">
     <input type="text" name="project" class="content-update" id="content-update" value="{{task.project}}">
     <input type="text" name="job" class="content-update" id="content-update" value="{{task.job}}">
     <input type="text" name="assignee" class="content-update" id="content-update" value="{{task.assignee}}">
