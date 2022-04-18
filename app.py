@@ -188,8 +188,9 @@ def index():
         room = Room.query.filter_by(name=form.room_name.data).first()
         if room:
             if bcrypt.check_password_hash(room.password, form.password.data):
-                flash("Room login accepted.")
+                flash("Room login accepted.", 'success')
                 return redirect(url_for('room',room_name=room.name))
+        flash('Invalid room credentials', 'error')
 
     rooms = Room.query.order_by(Room.name).all()
     errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
@@ -221,10 +222,10 @@ def room(room_name):
         try:
             db.session.add(new_task)
             db.session.commit()
-            flash("Task added.")
+            flash('Task added.', 'success')
             return redirect(url_for('room',room_name=room.name))
         except:
-            flash("There was an error when trying to add this Task.")
+            flash('There was an error when trying to add this Task.', 'info')
             return redirect(url_for('room',room_name=room.name))
 
     errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
@@ -266,9 +267,8 @@ def login():
                 # Login user using Flask login library
                 login_user(user)
                 return redirect(url_for('index'))
-        else:
-            flash('Invalid login credentials.')
-            return redirect(url_for('login'))
+        flash('Invalid login credentials.', 'error')
+        return redirect(url_for('login'))
     return render_template('login.html',form=form)
 
 # User logout
@@ -277,7 +277,7 @@ def login():
 def logout():
     # Logout using Flask logout library
     logout_user()
-    flash('User logged out.')
+    flash('User logged out.', 'info')
     return redirect(url_for('login'))
 
 # Register user
@@ -291,7 +291,7 @@ def register():
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        flash('Account creation succesful')
+        flash('Account creation succesful', 'success')
         return redirect(url_for('login'))
     return render_template('register.html',form=form)
 
@@ -309,10 +309,10 @@ def delete(key):
     try:
         db.session.delete(task_to_delete)
         db.session.commit()
-        flash('Task deleted successfully.')
+        flash('Task deleted successfully.', 'success')
         return redirect(url_for('room', room_name=room))
-    except:
-        flash('There was an issue deleting the task.')
+    except Exception:
+        flash('There was an issue deleting the task.', 'info')
         return redirect(url_for('room', room_name=room))
 
 # Update Task item
@@ -329,13 +329,13 @@ def update(key):
         task_to_update.date = s1 = now.strftime("%m/%d/%Y %H:%M:%S")
         try:
             db.session.commit()
-            flash('Task updated successfully.')
+            flash('Task updated successfully.', 'success')
             return redirect(url_for('room',room_name=Room.query.filter_by(key=task_to_update.key).first().name))
-        except Exception as e:
-            flash('There was an issue updating your task')
+        except Exception:
+            flash('There was an issue updating your task', 'info')
             return render_template('update.html', task=task_to_update)
     else:
-        return render_template('update.html',task=task_to_update)
+        return render_template('update.html', task=task_to_update)
 
 # ----------------------------------------------------------------------------
 # ---------------------------------------
