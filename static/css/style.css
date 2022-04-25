@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+
+
 :root {
   --main-background-color: #355c7d;
   --main-background-text-color: #61c0bf;
@@ -12,6 +15,7 @@ body, html {
   font-weight: bold;
   font-size: 20px;
   background-color: var(--main-background-color); 
+  font-family: 'rubik', sans-serif;
 }
 
 .content {
@@ -418,4 +422,102 @@ button {
 
 button:hover {
   background-color: #0666a3;
+}
+
+/* room.html accordion CSS */
+
+/* Aligns the heading text to the center. */
+ 
+h1 {
+  text-align: center;
+}
+
+/* Sets the width for the accordion. Sets the margin to 90px on the top and bottom and auto to the left and right */
+
+.accordion {
+  width: 1000px;
+  margin: 90px auto;
+  color: black;
+  background-color: white;
+}
+
+.accordion .container {
+  position: relative;
+  margin: 10px 10px;
+}
+
+/* Positions the labels relative to the .container. Adds padding to the top and bottom and increases font size. Also makes its cursor a pointer */
+
+.accordion .label {
+  position: relative;
+  padding: 10px 0;
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+}
+
+.accordion .label::before {
+  content: '+';
+  color: black;
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  font-size: 30px;
+  transform: translateY(-50%);
+}
+
+/* Hides the content (height: 0), decreases font size, justifies text and adds transition */
+
+.accordion .content {
+  position: relative;
+  background: white;
+  height: 0;
+  font-size: 20px;
+  text-align: justify;
+  width: 780px;
+  overflow: hidden;
+  transition: 0.8s;
+}
+
+.accordion .job {
+  position: relative;
+  background: white;
+  height: 0;
+  font-size: 20px;
+  text-align: justify;
+  width: 780px;
+  overflow: hidden;
+  transition: 0.8s;
+}
+
+/* Adds a horizontal line between the contents */
+
+.accordion hr {
+  width: 100;
+  margin-left: 0;
+  border: 1px solid grey;
+}
+
+.accordion .container.active .content {
+  height: 150px;
+}
+
+.accordion .container.active
+.job {
+  height: 50px;
+}
+
+/* Changes from plus sign to negative sign once active */
+
+.accordion .container.active .label::before {
+  content: '-';
+  font-size: 30px;
+}
+
+.assignee {
+  color: grey;
+}
+
+.date {
+  color: grey;
 }

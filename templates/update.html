@@ -16,12 +16,26 @@
     <div class="alert-{{category}}">{{ message }}</div>
   {% endfor %}
 
-  <form action="/update/{{task.id}}" method="POST">
-    <input type="text" name="project" class="content-update" id="content-update" value="{{task.project}}">
-    <input type="text" name="job" class="content-update" id="content-update" value="{{task.job}}">
-    <input type="text" name="assignee" class="content-update" id="content-update" value="{{task.assignee}}">
-    <input type="text" name="progress" class="content-update" id="content-update" value="{{task.progress}}">
-    <input type="submit" value="Update">
+  
+  <div class="testbox">
+    <form action="/update/{{task.id}}" method="POST">
+      <h1>Create a new Task</h1>
+      <h4>Project<span>*</span></h4>
+        <input type="text" class="text-form" name="task-project" placeholder="{{ task.project }}">
+      <h4>Job<span>*</span></h4>
+        <input type="text" class="text-form" name="task-job" placeholder="{{ task.job }}">
+      <h4>Assignee<span>*</span></h4>
+        <input type="text" class="text-form" name="task-assignee" placeholder="{{ task.assignee }}">
+      <h4>Progress<span>*</span></h4>
+        <input type="text" class="text-form" name="task-progress" placeholder="{{ task.progress }}">
+      <h4>Description</h4>
+      <p class="small">Provide a more detailed description of the task.</small>
+        <textarea class="text-area" name="task-description" placeholder="{{ task.description }}"></textarea>
+      <div class="btn-block">
+        <input type="submit" class="btn btn-submit" value="Update Task">
+      </div>
+    </form>
+  </div>
   </form>
 </div>
 {% endblock %}

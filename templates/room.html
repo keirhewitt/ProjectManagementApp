@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>{{room_name}}</title>
+<title>{{ roomname }}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
@@ -10,8 +10,6 @@
 {% block pagetitle %} Current Room {% endblock %}
 
 {% block body %}
-
-<h1>{{room_name}}</h1>
 
 <div class="content">
   <h1 style="text-align: center;">Tasks</h1>
@@ -58,11 +56,36 @@
         </td>
       </tr>
     {% endfor %}
-  </table>
-  {% endif %}-->
+  </table>-->
+
+  <div class="accordion">
+    <h1>{{ roomname }}</h1>
+    <hr>
+
+    {% for task in tasks %}
+
+    <div class="container">
+      <div class="label">{{task.project}}</div>
+      <div class="job">{{task.job}}</div>  
+      <div class="content">{{task.description}}</div>
+    <div class="assignee">{{task.assignee}}</div>
+    <div class="date">{{task.date}}</div>
+    </div>
+    <hr>
+
+    {% endfor %}
+
+  </div>
+
+  {% endif %}
+
+  <h1>{{ roomname }}</h1>
+
   <form action="" method="POST">
     <button type="submit" class="btn btn-default">Add Task</button>
   </form>
 </div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 {% endblock %}

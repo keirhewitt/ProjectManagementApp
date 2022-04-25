@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from flask_bootstrap import Bootstrap
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import InputRequired, Length, ValidationError, DataRequired, EqualTo
 from flask_bcrypt import Bcrypt
 from datetime import datetime
@@ -150,7 +150,6 @@ class LoginForm(FlaskForm):
                 "Invalid login details."
             )
         
-
 class TaskCreationForm(FlaskForm):
     """Creating a Task for adding to database"""
     # Project, Job, Assignee, Stage
@@ -170,16 +169,15 @@ class TaskCreationForm(FlaskForm):
         min=1, max=60
     )], render_kw={"placeholder": "Progress"})
 
-    description = StringField(render_kw={"placeholder": "Description"})
+    description = TextAreaField(render_kw={"rows": 20})
 
     submit = SubmitField("Add Task")
 
 
 # ----------------------------------------------------------------------------
-# ----------------------------------------------------------------------------
 
-# ---------------------------------------
-# --------- INDEX
+
+# INDEX
 
 # Index Page - Login to a room   
 @app.route('/', methods=['GET','POST'])
@@ -199,10 +197,10 @@ def index():
     errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
     return render_template('index.html', form=form, rooms=rooms, errors=errors)
 
-# ----------------------------------------------------------------------------
-# ---------------------------------------
-# --------- ROOMS
 
+# ----------------------------------------------------------------------------
+
+# ROOMS
 
 # Display room logged in to
 @app.route('/room/<string:room_name>', methods=['POST','GET'])
@@ -210,15 +208,34 @@ def index():
 def room(room_name):
     # Room contains a Task creation form and displays current Tasks active in current Room
     if request.method == 'POST':
-        return redirect(url_for('create_task'))
+        return redirect(url_for('create_task', room_name=room_name))
     room = Room.query.filter_by(name=room_name).first()
     tasks = Task.query.filter_by(key=room.key).order_by(Task.date).all()
-    return render_template('room.html', tasks=tasks)
+    return render_template('room.html', tasks=tasks, roomname=room_name)
 
-@app.route('/create/task')
+# App form for adding a Task to the given room
+@app.route('/create/task/<string:room_name>', methods=['POST','GET'])
 @login_required
-def create_task():
-    return render_template('create-task.html')
+def create_task(room_name):
+    form = TaskCreationForm()
+    room_key = Room.query.filter_by(name=room_name).first().key
+    if form.validate_on_submit():
+        new_task = Task(
+            key         = room_key,
+            project     = form.project.data,
+            job         = form.job.data,
+            assignee    = form.assignee.data,
+            progress    = form.progress.data,
+            description = form.description.data
+        )
+        try:
+            db.session.add(new_task)
+            db.session.commit()
+            flash('Task added successfully.', 'success')
+        except Exception:
+            flash('There was an error adding the Task.', 'error')
+        return redirect(url_for('room', room_name=room_name))
+    return render_template('create-task.html', form=form)
 
 # Creating a room
 @app.route('/create/room', methods=['POST','GET'])
@@ -227,23 +244,20 @@ def create_room():
     form = RoomCreationForm()
 
     if form.validate_on_submit(): 
-        # Create unique hex value for room_key
-        unique_room_key = str(uuid.uuid1().hex)
-        # Hash the password using Bcrypt
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        unique_room_key = str(uuid.uuid1().hex) # Create unique hex value for room_key
+        hashed_password = bcrypt.generate_password_hash(form.password.data)  # Hash the password using Bcrypt
         new_room = Room(key=unique_room_key, name=form.room_name.data, password=hashed_password)
         db.session.add(new_room)
         db.session.commit()
-        # Redirect to index page on succesfull Room creation
-        return redirect(url_for('index'))
+        return redirect(url_for('index'))   # Redirect to index page on succesfull Room creation
     
     errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
     return render_template('create-room.html',form=form,errors=errors)
         
 
 # ----------------------------------------------------------------------------
-# ---------------------------------------
-# -------- USERS
+
+# USERS
         
 # User login
 @app.route('/login', methods=['GET','POST'])
@@ -284,9 +298,10 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html',form=form)
 
+
 # ----------------------------------------------------------------------------
-# ---------------------------------------
-# ---------- Update/Delete Tasks 
+
+# Update/Delete Tasks 
 
 # Delete Task item
 @app.route('/delete/<int:id>')
@@ -327,8 +342,9 @@ def update(id):
     else:
         return render_template('update.html', task=task_to_update)
 
+
 # ----------------------------------------------------------------------------
-# ---------------------------------------
+
 
 # Run app with debug
 if __name__ == "__main__":

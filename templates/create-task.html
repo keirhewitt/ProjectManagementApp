@@ -25,19 +25,26 @@
 
 <!-- Project / Job / Assignee / Description / Progress / Date -->
 <div class="testbox">
-  <form action="" method="POST" id="create-task-form">
+  <form method="POST" action="" id="create-task-form">
+    {{ form.csrf_token }}
     <h1>Create a new Task</h1>
     <h4>Project<span>*</span></h4>
-      <input type="text" class="text-form" name="task-project">
+      {{ form.project(class_ = 'text-form')}}
+      <!--<input type="text" class="text-form" name="task-project">-->
     <h4>Job<span>*</span></h4>
-      <input type="text" class="text-form" name="task-job">
+      {{ form.job(class_ = 'text-form')}}
+      <!--<input type="text" class="text-form" name="task-job">-->
     <h4>Assignee<span>*</span></h4>
-      <input type="text" class="text-form" name="task-assignee">
+      {{ form.assignee(class_ = 'text-form')}}
+      <!--<input type="text" class="text-form" name="task-assignee">-->
+    <h4>Progress<span>*</span></h4>
+      {{ form.progress(class_ = 'text-form')}}
+      <!--<input type="text" class="text-form" name="task-progress">-->
     <h4>Description</h4>
     <p class="small">Provide a more detailed description of the task.</small>
-      <textarea rows="10" class="text-area"></textarea>
+      {{ form.description(class_ = 'text-area')}}
     <div class="btn-block">
-      <button type="submit">Add Task</button>
+      {{ form.submit }}
     </div>
   </form>
 </div>
