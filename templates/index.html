@@ -11,6 +11,12 @@
 
 {% block body %}
 
+{% if error|length > 0 %}
+  {% for er in error %}
+    <div class="alert-error">{{er}}</div>
+  {% endfor %}
+{% endif %}
+
 {% for category, message in get_flashed_messages(with_categories=True) %}
   <div class="alert-{{category}}">{{ message }}</div>
 {% endfor %}

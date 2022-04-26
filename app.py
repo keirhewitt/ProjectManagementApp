@@ -184,18 +184,16 @@ class TaskCreationForm(FlaskForm):
 @login_required
 def index():
     form = RoomEntryForm()
-
+    error = []
     if form.validate_on_submit():
         room = Room.query.filter_by(name=form.room_name.data).first()
         if room:
             if bcrypt.check_password_hash(room.password, form.password.data):
                 flash("Room login accepted.", 'success')
                 return redirect(url_for('room',room_name=room.name))
-        flash('Invalid room credentials', 'error')
-
+        error = "Invalid room credentials."
     rooms = Room.query.order_by(Room.name).all()
-    errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
-    return render_template('index.html', form=form, rooms=rooms, errors=errors)
+    return render_template('index.html', form=form, rooms=rooms, errors=error)
 
 
 # ----------------------------------------------------------------------------

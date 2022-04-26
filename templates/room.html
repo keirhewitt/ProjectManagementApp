@@ -7,7 +7,7 @@
 {% endblock %}
 
 {{ super() }}
-{% block pagetitle %} Current Room {% endblock %}
+{% block pagetitle %} <i>{{roomname}}</i> {% endblock %}
 
 {% block body %}
 
@@ -29,34 +29,6 @@
   {% for category, message in get_flashed_messages(with_categories=True) %}
     <div class="alert-{{category}}">{{ message }}</div>
   {% endfor %}
-
-  <!--
-  <table>
-    <tr>
-      <th>Project</th>
-      <th>Task</th>
-      <th>Assignee</th>
-      <th>Progress</th>
-      <th>Last Updated</th>
-      <th>Description</th>
-    </tr>
-    {% for task in tasks %}
-      <tr>
-        <td>{{ task.project }} </td>
-        <td>{{ task.job }} </td>
-        <td>{{ task.assignee }} </td>
-        <td>{{ task.progress }} </td>
-        <td>{{ task.date }}</td>
-        <td>{{ task.description }}</td>
-        <td>
-          <button><a href="/delete/{{task.id}}">Delete</a></button>
-        </td>
-        <td>
-          <button><a href="/update/{{task.id}}">Update</a></button>
-        </td>
-      </tr>
-    {% endfor %}
-  </table>-->
 
   <div class="accordion">
     <h1>{{ roomname }}</h1>
