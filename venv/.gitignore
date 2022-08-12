@@ -1,6 +1,0 @@
-# created by virtualenv automatically
-__pycache__/
-venv/
-Procfile.*
-Requirements.*
-test.*

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
 
 :root {
   --main-background-color: #355c7d;
@@ -11,11 +12,11 @@
 
 body, html {
   margin: 0;
-  font-family: serif;
   font-weight: bold;
   font-size: 20px;
   background-color: var(--main-background-color); 
-  font-family: 'rubik', sans-serif;
+  font-family: 'Merriweather', serif;
+
 }
 
 .content {
@@ -89,7 +90,6 @@ td {
 
 .nav-user-li {
   float: left;
-  font-family: Arial;
 }
 
 .nav-user-li a {
@@ -132,7 +132,6 @@ td {
 .nav-right > .nav-user-li {
   display: block;
   float: right;
-  font-family: arial;
   text-decoration: none;
   color: black;
   text-align: center;
@@ -144,11 +143,79 @@ td {
   width: 700px;
   text-align: center;
   margin: 0;
-  font-family: sans-serif;
   background-color: var(--main-background-color);
 }
 
 /* room.html  */
+
+/* login.html */
+
+.login-footer {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form-container {
+  height: 600px;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#username, #password{
+  width: 250px;
+  height: 25px;
+  font-size: 22px;
+  border-radius: 2px;
+  padding: 3px;
+}
+
+#submit {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 22px;
+  font-family: 'Permanent Marker', cursive;
+  padding: 3px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#submit span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#submit span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#submit:hover span {
+  padding-right: 25px;
+}
+
+#submit:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
 
 /* update.html  */
 
@@ -172,7 +239,6 @@ td {
 }
 
 .no-room-header {         /* h1 header for when there's no rooms */
-  font-family: serif;
   text-align: center;
   color: floralwhite;
   text-shadow: 1px 1.5px 2px black;
@@ -188,7 +254,6 @@ td {
   justify-content: center;
   background-color: white;
   color: black;
-  font-family: serif;
   font-size: 20px;
   font-weight: bold;
   transition: 0.3s;
@@ -230,7 +295,6 @@ td {
     width: 75%;
     border-radius: 0px 10px 0px 5px;
     font-size: 25px;
-    font-family: serif;
     background-color: floralwhite;
 }
 
@@ -297,7 +361,6 @@ td {
   color: black;
   position: absolute;
   left: 550px;
-  font-family: serif;
   top: 111px;
   font-size: 20px;
   font-weight: bold;

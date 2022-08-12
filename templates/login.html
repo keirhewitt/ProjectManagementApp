@@ -18,13 +18,17 @@
   <div class="alert-{{category}}">{{ message }}</div>
 {% endfor %}
 
-<form method="POST" action="">
-    {{ form.hidden_tag() }}
-    {{ form.username }}
-    {{ form.password }}
-    {{ form.submit }}
-</form>
+<div class="login-form-container">
+  <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      {{ form.username }}
+      {{ form.password }}
+      {{ form.submit }}
+  </form>
+</div>
 
-<a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
+<div class="login-footer">
+  <a href="{{ url_for('register') }}">Don't have an account? Sign Up</a>
+</div>
 
 {% endblock %}
