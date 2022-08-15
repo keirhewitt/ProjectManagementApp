@@ -8,14 +8,16 @@
 {% endblock %}
 
 {{ super() }}
-{% block pagetitle %} Login Page {% endblock %}
+{% block pagetitle %}<i>Login Page</i>{% endblock %}
 
 {% block body %}
 
-<h1>Login Page</h1>
-
 {% for category, message in get_flashed_messages(with_categories=True) %}
   <div class="alert-{{category}}">{{ message }}</div>
+{% endfor %}
+
+{% for error in errors %}
+  <div class="error">{{error}}</div>
 {% endfor %}
 
 <div class="login-form-container">

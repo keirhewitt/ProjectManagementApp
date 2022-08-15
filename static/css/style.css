@@ -148,6 +148,19 @@ td {
 
 /* room.html  */
 
+/* register.html */
+.register-container {
+  display: flex;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.register-container input {
+  margin: 10px auto;
+}
+
 /* login.html */
 
 .login-footer {
@@ -167,14 +180,6 @@ td {
   justify-content: center;
 }
 
-#username, #password{
-  width: 250px;
-  height: 25px;
-  font-size: 22px;
-  border-radius: 2px;
-  padding: 3px;
-}
-
 #submit {
   display: inline-block;
   border-radius: 4px;
@@ -185,7 +190,8 @@ td {
   font-size: 22px;
   font-family: 'Permanent Marker', cursive;
   padding: 3px;
-  width: 100px;
+  width: 250px;
+  height: 50px;
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
@@ -298,7 +304,7 @@ td {
     background-color: floralwhite;
 }
 
-.home-container-inner input[type=text] {
+/* .home-container-inner input[type=text] {
   margin-right: 10px;
   width: 30%;
   position: absolute;
@@ -310,9 +316,9 @@ td {
   padding: 5px;
   box-sizing: border-box;
   transition: .3s;
-}
+} */
 
-.home-container-inner input[type=password] {
+/* .home-container-inner input[type=password] {
   margin-right: 10px;
   width: 30%;
   position: absolute;
@@ -324,7 +330,7 @@ td {
   padding: 5px;
   box-sizing: border-box;
   transition: .3s;
-}
+} */
 
 .login-styling {
   display: inline;
@@ -344,23 +350,22 @@ td {
   box-shadow: 2px 1px 11px black;
 }
   
-.home-container-inner input[type=text]:focus {
-  border-color: aliceblue;
+/* .home-container-inner input[type=text]:focus {
+  border-color: aliceblue;s
   box-shadow: 0 0 5px 0 white;
 }
 
 .home-container-inner input[type=password]:focus {
   border-color: aliceblue;
   box-shadow: 0 0 5px 0 white;
-}
+} */
 
 .room-search-submit {
-  width: 15%;
+  width: 500px;
   background-color: white;
   border: None;
   color: black;
-  position: absolute;
-  left: 550px;
+  left: 45%;
   top: 111px;
   font-size: 20px;
   font-weight: bold;
@@ -376,6 +381,16 @@ td {
 }
 
 /* Message categories */
+
+.alert-message {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid aliceblue;
+  background-color: #FAFAFA;
+  color: var(--main-background-color);
+}
 
 .alert-error {
   padding: 12px;
@@ -441,8 +456,17 @@ span {
   background: transparent;
 }
 
-input:hover, textarea:hover {
+input, textarea {
   outline: none;
+  width:500px;
+  height:30px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size:24px;
+  padding:8px 12px;
+}
+
+input:hover, textarea:hover {
   border: 1px solid #095484;
   background: #e6eef7;
 }

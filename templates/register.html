@@ -8,7 +8,7 @@
 {% endblock %}
 
 {{ super() }}
-{% block pagetitle %} User Registration {% endblock %}
+{% block pagetitle %}<i>User Registration</i>{% endblock %}
 
 {% block body %}
 
@@ -18,13 +18,15 @@
   <div class="alert-{{category}}">{{ message }}</div>
 {% endfor %}
 
-<form method="POST" action="">
-    {{ form.hidden_tag() }}
-    {{ form.username }}
-    {{ form.password }}
-    {{ form.confirm_pass }}
-    {{ form.submit }}
-</form>
+<div class="register-container">
+  <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      {{ form.username }}
+      {{ form.password }}
+      {{ form.confirm_pass }}
+      {{ form.submit }}
+  </form>
+</div>
 
 <a href="{{ url_for('login') }}">Already have an account? Login in</a>
 

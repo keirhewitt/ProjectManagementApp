@@ -120,14 +120,11 @@ class RegistrationForm(FlaskForm):
 
     submit = SubmitField("Register")
 
-    def validate_username(self, username):
+    def validate_username(self, uname):
         existing_user_username = User.query.filter_by(
-            username=username.data).first()
+            username=uname.data).first()
 
-        if existing_user_username:
-            raise ValidationError(
-                "That username already exists. Please choose a different one."
-            )
+        return existing_user_username == None
 
 class LoginForm(FlaskForm):
     """User login"""
@@ -169,7 +166,7 @@ class TaskCreationForm(FlaskForm):
         min=1, max=60
     )], render_kw={"placeholder": "Progress"})
 
-    description = TextAreaField(render_kw={"rows": 20})
+    description = TextAreaField(render_kw={"rows": 20}) # Not required for validation
 
     submit = SubmitField("Add Task")
 
@@ -187,13 +184,13 @@ def index():
     error = []
     if form.validate_on_submit():
         room = Room.query.filter_by(name=form.room_name.data).first()
-        if room:
-            if bcrypt.check_password_hash(room.password, form.password.data):
+        if room:    # If the room exists
+            if bcrypt.check_password_hash(room.password, form.password.data):   # Check the password
                 flash("Room login accepted.", 'success')
-                return redirect(url_for('room',room_name=room.name))
+                return redirect(url_for('room',room_name=room.name))    # Redirect to the room page
         error = "Invalid room credentials."
-    rooms = Room.query.order_by(Room.name).all()
-    return render_template('index.html', form=form, rooms=rooms, errors=error)
+    rooms = Room.query.order_by(Room.name).all()    # Get all rooms
+    return render_template('index.html', form=form, rooms=rooms, errors=error) # Render main page with a list of all current rooms
 
 
 # ----------------------------------------------------------------------------
@@ -206,10 +203,10 @@ def index():
 def room(room_name):
     # Room contains a Task creation form and displays current Tasks active in current Room
     if request.method == 'POST':
-        return redirect(url_for('create_task', room_name=room_name))
+        return redirect(url_for('create_task', room_name=room_name))    # Task creation sends POST request, navigate to the page
     room = Room.query.filter_by(name=room_name).first()
     tasks = Task.query.filter_by(key=room.key).order_by(Task.date).all()
-    return render_template('room.html', tasks=tasks, roomname=room_name)
+    return render_template('room.html', tasks=tasks, roomname=room_name)    # Display current room tasks and name
 
 # App form for adding a Task to the given room
 @app.route('/create/task/<string:room_name>', methods=['POST','GET'])
@@ -227,12 +224,12 @@ def create_task(room_name):
             description = form.description.data
         )
         try:
-            db.session.add(new_task)
+            db.session.add(new_task)    # Add the task to the database
             db.session.commit()
-            flash('Task added successfully.', 'success')
+            flash('Task added successfully.', 'success')    # Show success message on successful database commit
         except Exception:
-            flash('There was an error adding the Task.', 'error')
-        return redirect(url_for('room', room_name=room_name))
+            flash('There was an error adding the Task.', 'error')   # Database commit error
+        return redirect(url_for('room', room_name=room_name))   # Redirect to the room after trying to add task
     return render_template('create-task.html', form=form)
 
 # Creating a room
@@ -247,7 +244,7 @@ def create_room():
         new_room = Room(key=unique_room_key, name=form.room_name.data, password=hashed_password)
         db.session.add(new_room)
         db.session.commit()
-        return redirect(url_for('index'))   # Redirect to index page on succesfull Room creation
+        return redirect(url_for('index'))   # Redirect to index page on successful Room creation
     
     errors = [{'field': key, 'messages': form.errors[key]} for key in form.errors.keys()]
     return render_template('create-room.html',form=form,errors=errors)
@@ -268,7 +265,7 @@ def login():
                 # Login user using Flask login library
                 login_user(user)
                 return redirect(url_for('index'))
-        flash('Invalid login credentials.', 'error')
+        flash('Invalid login credentials.', 'error')    # On form validation error
         return redirect(url_for('login'))
     return render_template('login.html',form=form)
 
@@ -287,13 +284,15 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        # Hash users password using Bcrypt
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Account creation succesful', 'success')
-        return redirect(url_for('login'))
+        if form.validate_username(form.username):
+            hashed_password = bcrypt.generate_password_hash(form.password.data)     # Hash the password using BCrypt
+            new_user = User(username=form.username.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account creation succesful', 'success')
+            return redirect(url_for('login'))   # Redirect to login page on successful registration
+        else:
+            flash('Username already exists, please enter a new one.', 'info')
     return render_template('register.html',form=form)
 
 
@@ -324,12 +323,12 @@ def update(id):
     task_to_update = Task.query.filter_by(id=id).first()
 
     if request.method == 'POST':
-        task_to_update.project = request.form['project']
-        task_to_update.job = request.form['job']
-        task_to_update.assignee = request.form['assignee']
-        task_to_update.progress = request.form['progress']
-        task_to_update.description = request.form['description']
-        task_to_update.date = s1 = now.strftime("%m/%d/%Y %H:%M")
+        task_to_update.project      = request.form['project']
+        task_to_update.job          = request.form['job']
+        task_to_update.assignee     = request.form['assignee']
+        task_to_update.progress     = request.form['progress']
+        task_to_update.description  = request.form['description']
+        task_to_update.date = s1    = now.strftime("%m/%d/%Y %H:%M")
         try:
             db.session.commit()
             flash('Task updated successfully.', 'success')
