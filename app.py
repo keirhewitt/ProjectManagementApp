@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, flash, render_template, url_for, request, redirect
 from flask_wtf.form import FlaskForm
 from flask_sqlalchemy import SQLAlchemy
@@ -12,13 +14,17 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime
 import uuid
 
+load_dotenv()
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-app.config['SECRET_KEY'] = '!s£34f@C_332fvvbsd+'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
+app.config['SECRET_KEY'] = os.getenv('DB_SECRET_KEY')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 Bootstrap(app)
+
+app.app_context().push()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -36,7 +42,7 @@ def load_user(user_id):
 class Room(db.Model):
     __tablename__ = 'room'
     key = db.Column(db.String(80), primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(60), nullable=False)
     task = relationship("Task")
 
@@ -124,7 +130,11 @@ class RegistrationForm(FlaskForm):
         existing_user_username = User.query.filter_by(
             username=uname.data).first()
 
-        return existing_user_username == None
+        if not existing_user_username:
+            raise ValidationError(
+                "Invalid login details."
+            )
+
 
 class LoginForm(FlaskForm):
     """User login"""
@@ -138,7 +148,7 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField("Login")
 
-    def validate_login(self, username, password):
+    def validate_login(self, username):
         existing_user = User.query.filter_by(
             username=username.data).first()
 
@@ -170,11 +180,13 @@ class TaskCreationForm(FlaskForm):
 
     submit = SubmitField("Add Task")
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 # ----------------------------------------------------------------------------
-
-
-# INDEX
+# Home page
 
 # Index Page - Login to a room   
 @app.route('/', methods=['GET','POST'])
@@ -188,14 +200,13 @@ def index():
             if bcrypt.check_password_hash(room.password, form.password.data):   # Check the password
                 flash("Room login accepted.", 'success')
                 return redirect(url_for('room',room_name=room.name))    # Redirect to the room page
-        error = "Invalid room credentials."
+        flash('Invalid rooms credentials.', 'error')
     rooms = Room.query.order_by(Room.name).all()    # Get all rooms
     return render_template('index.html', form=form, rooms=rooms, errors=error) # Render main page with a list of all current rooms
 
 
 # ----------------------------------------------------------------------------
-
-# ROOMS
+# Rooms
 
 # Display room logged in to
 @app.route('/room/<string:room_name>', methods=['POST','GET'])
@@ -251,8 +262,7 @@ def create_room():
         
 
 # ----------------------------------------------------------------------------
-
-# USERS
+# Users
         
 # User login
 @app.route('/login', methods=['GET','POST'])
@@ -293,8 +303,17 @@ def register():
             return redirect(url_for('login'))   # Redirect to login page on successful registration
         else:
             flash('Username already exists, please enter a new one.', 'info')
+            return redirect(url_for('register'))
     return render_template('register.html',form=form)
 
+
+# ----------------------------------------------------------------------------
+# Handle Unauthorised users
+
+@login_manager.unauthorized_handler
+def unauthorized_callback():            # In call back url we can specify where we want to 
+    flash('You must be logged in for access to that.', 'error')
+    return redirect(url_for('login'))
 
 # ----------------------------------------------------------------------------
 
