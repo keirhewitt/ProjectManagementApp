@@ -12,7 +12,7 @@
 {% block body %}
 
 <div class="content">
-  <h1 style="text-align: center;">Tasks</h1>
+  <h1 style="text-align: center;">{{ roomname }}</h1>
 
   {% if tasks|length < 1%}  <!-- If the room contains no tasks -->
     <h4 style="text-align: center;">There are no tasks. Create one below!</h4>
@@ -31,7 +31,7 @@
   {% endfor %}
 
   <div class="accordion">
-    <h1>{{ roomname }}</h1>
+    <h1>Tasks</h1>
     <hr>
 
     {% for task in tasks %}
@@ -39,7 +39,7 @@
     <div class="container">
       <div class="label">{{task.project}}</div>
       <div class="job">{{task.job}}</div>  
-      <div class="content">{{task.description}}</div>
+      <div class="content">"{{task.description}}"</div>
     <div class="assignee">{{task.assignee}}</div>
     <div class="date">{{task.date}}</div>
     </div>
@@ -51,12 +51,14 @@
 
   {% endif %}
 
-  <h1>{{ roomname }}</h1>
-
+  
   <form action="" method="POST">
     <button type="submit" class="btn btn-default">Add Task</button>
   </form>
+
 </div>
+
+<h1>{{ roomname }}</h1>
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
