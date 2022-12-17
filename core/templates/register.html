@@ -20,13 +20,19 @@
 
 <div class="register-container">
   <form method="POST" action="">
-      {{ form.hidden_tag() }}
+      {{ form.csrf_token() }}
       {{ form.username }}
       {{ form.password }}
       {{ form.confirm_pass }}
-      {{ form.submit }}
+      {{ form.submit(class="btn btn-primary") }}
   </form>
 </div>
+
+{% for field, errors in form.errors.items() %}
+  <small class="form-text text-muted" >
+    {{ ', '.join(errors) }}
+  </small>
+{% endfor %}
 
 <a href="{{ url_for('login') }}">Already have an account? Login in</a>
 

@@ -42,6 +42,11 @@
       <div class="content">"{{task.description}}"</div>
     <div class="assignee">{{task.assignee}}</div>
     <div class="date">{{task.date}}</div>
+    <form action="{{ url_for('update', id=task.id) }}">
+      <div class="update">
+        <button type="submit" class="btn btn-block">Update Task</button>
+      </div>
+    </form>
     </div>
     <hr>
 
@@ -53,7 +58,7 @@
 
   
   <form action="" method="POST">
-    <button type="submit" class="btn btn-default">Add Task</button>
+    <button type="submit" class="btn btn-primary">Add Task</button>
   </form>
 
 </div>
