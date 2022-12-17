@@ -1,0 +1,71 @@
+
+{% extends "base.html" %}
+
+{% block head %}
+<title>Tasks</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{{ super() }}
+{% block pagetitle %}<i>Room Login</i>{% endblock %}
+
+{% block body %}
+
+{% if error|length > 0 %}
+  {% for er in error %}
+    <div class="alert-error">{{er}}</div>
+  {% endfor %}
+{% endif %}
+
+{% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert-{{category}}">{{ message }}</div>
+{% endfor %}
+
+{% if rooms|length < 1%}    <!-- If no rooms have been created, prompt user to create one -->
+
+  <h1 class="no-room-header">There are no rooms currently active, create one!</h1>
+  <form action="{{url_for('create_room')}}">
+    <input type="submit" class="create-room-btn" value="Create Room">
+  </form>
+
+{% else %}
+
+<div class="home-description">            <!-- Description div -->
+  <h5>Enter a room name and password, then 
+    <div class="login-styling" style="display: inline;background-color:red">  <!-- login div -->
+      <em style="color: #ececec" class="login-styling-text">
+        login
+      </em>
+    </div> 
+    to be brought to your room.</h5>
+</div>
+
+<ul>
+  {% for field in errors %}
+    {% for message in field.messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  {% endfor %}
+</ul>
+
+<div class="home-container-wrapper">        <!-- Main background -->
+  <div class="form-background">             <!-- Form background box -->
+    <div class="home-container-inner">      <!-- Form fields div-->
+
+      <form method="POST" action="">
+
+          {{ form.hidden_tag()                              }}
+          {{ form.room_name (class_="room-search-name")      }}
+          {{ form.password (class_="room-search-password")  }}
+          {{ form.submit   (class_="room-search-submit")    }}
+
+      </form>
+
+    </div>
+  </div>
+</div>
+<script></script>
+
+{% endif %}
+
+{% endblock %}

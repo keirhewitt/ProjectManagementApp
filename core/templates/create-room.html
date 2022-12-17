@@ -1,0 +1,37 @@
+
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Tasks</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{{ super() }}
+{% block pagetitle %}<i>Create room</i>{% endblock %}
+
+{% block body %}
+
+{% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert-{{category}}">{{ message }}</div>
+{% endfor %}
+
+<ul>
+  {% for field in errors %}
+    {% for message in field.messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  {% endfor %}
+</ul>
+
+<div class="room-selector-container">
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.room_key }}
+        {{ form.room_name }}
+        {{ form.password }}
+        {{ form.confirm_pass }}
+        {{ form.submit }}
+    </form>
+</div>
+
+{% endblock %}

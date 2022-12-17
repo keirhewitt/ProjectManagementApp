@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+
+{% block head %}
+<title>Update Task</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
+{{ super() }}
+{% block pagetitle %}<i>Update Task</i>{% endblock %}
+
+{% block body %}
+<div class="content">
+  <h1 style="text-align: center;">Update Master</h1>
+
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert-{{category}}">{{ message }}</div>
+  {% endfor %}
+
+  
+  <div class="testbox">
+    <form action="/update/{{task.id}}" method="POST">
+      <h1>Create a new Task</h1>
+      <h4>Project<span>*</span></h4>
+        <input type="text" class="text-form" name="task-project" placeholder="{{ task.project }}">
+      <h4>Job<span>*</span></h4>
+        <input type="text" class="text-form" name="task-job" placeholder="{{ task.job }}">
+      <h4>Assignee<span>*</span></h4>
+        <input type="text" class="text-form" name="task-assignee" placeholder="{{ task.assignee }}">
+      <h4>Progress<span>*</span></h4>
+        <input type="text" class="text-form" name="task-progress" placeholder="{{ task.progress }}">
+      <h4>Description</h4>
+      <p class="small">Provide a more detailed description of the task.</small>
+        <textarea class="text-area" name="task-description" placeholder="{{ task.description }}"></textarea>
+      <div class="btn-block">
+        <input type="submit" class="btn btn-submit" value="Update Task">
+      </div>
+    </form>
+  </div>
+  </form>
+</div>
+{% endblock %}

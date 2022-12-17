@@ -1,0 +1,610 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+:root {
+  --main-background-color: #355c7d;
+  --main-background-text-color: #61c0bf;
+  --main-accents-color: #ffb6b9;
+  --main-secondary-color: #fae3d9;
+  --main-background-image: linear-gradient(to top right, #61c0bf 0%, #ffb6b9 100%);
+}
+
+body, html {
+  margin: 0;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: var(--main-background-color); 
+  font-family: 'Merriweather', serif;
+
+}
+
+.content {
+  margin: 0 auto;
+  width: 1000px;
+  text-align: center;
+}
+
+table, td, th {
+  border: 1px solid rgb(0, 0, 0);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+th {
+  height: 30px;
+  background-color: var(--main-secondary-color);
+}
+
+td {
+  text-align: center;
+  padding: 5px;
+  width: 150px;
+}
+
+.form {
+  margin-top: 20px;
+}
+
+#tb.content {
+  width: 70%;
+}
+
+.tb-content .room-id .room-pass [type=text] {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  width: 400px;
+  top: 20px;
+  left: 38%;
+  text-align: center;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: .3s;
+}
+
+.tb-content .room-id .room-pass [type=text]:focus {
+  border-color: var(--main-accents-color);
+  box-shadow: 0 0 8px 0 var(--main-accents-color);
+
+}
+
+
+/*
+  Navbar    
+          */
+.nav-user-ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #6c5b7b;
+  height: 44px;
+}
+
+.nav-user-li {
+  float: left;
+}
+
+.nav-user-li a {
+  display: block;
+  color: darkgrey;
+  text-align: center;
+  padding: 10.5px 15px;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: 0.8s;
+}
+
+.nav-user-li p {
+  display: block;
+  color: darkgrey;
+  text-align: center;
+  padding: 10.5px 15px;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: 0.8s;
+  border-left: 1px solid white;
+  box-shadow: inset 5px 0 0 0 white;
+}
+
+.nav-user-li p:hover {
+  opacity: 1;
+  color: (--main-accents-color);
+  box-shadow: 0 0 3px 0 (--main-background-color);
+  /*font-style: italic;*/
+}
+
+.nav-user-li a:hover {
+  opacity: 1;
+  color: white;
+  box-shadow: 0 0 3px 0 white;
+  border-radius: 0px 10px 0px 5px;
+  /*font-style: italic;*/
+}
+
+.nav-right > .nav-user-li {
+  display: block;
+  float: right;
+  text-decoration: none;
+  color: black;
+  text-align: center;
+}
+
+/* navigation.html  */
+
+.room-selector-container {
+  width: 700px;
+  text-align: center;
+  margin: 0;
+  background-color: var(--main-background-color);
+}
+
+/* room.html  */
+
+/* register.html */
+.register-container {
+  display: flex;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.register-container input {
+  margin: 10px auto;
+}
+
+/* login.html */
+
+.login-footer {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form-container {
+  height: 600px;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#submit {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 22px;
+  font-family: 'Permanent Marker', cursive;
+  padding: 3px;
+  width: 250px;
+  height: 50px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#submit span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#submit span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#submit:hover span {
+  padding-right: 25px;
+}
+
+#submit:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
+/* update.html  */
+
+.content-update {
+  margin: 5px;   
+}
+
+/*  Index.html  */
+
+.error-message {
+  position: fixed;
+  left: 12.5%;
+  padding: 0px 50px 2px 50px;
+  border-radius: 0px 8px 0px 8px;
+  font-size: xx-large;
+  box-shadow: 0 0 8px 0 red;
+  top: 80px;
+  transition: 0.5s;
+  border: 1px solid black;
+  font-style: italic;
+}
+
+.no-room-header {         /* h1 header for when there's no rooms */
+  text-align: center;
+  color: floralwhite;
+  text-shadow: 1px 1.5px 2px black;
+}
+
+.create-room-btn {       /* Create room button for when there's no room  */
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 200px;
+  height: 35px;
+  border: none;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.create-room-btn:hover {
+  background-color: #f95959;
+  color: white;
+  /*font-style: italic;*/
+  border-radius: 0px 10px 0px 5px;
+  box-shadow: 0 0 6px 0 white;
+}
+
+.home-container-wrapper {
+  display: block;
+  height: 100%;
+  margin: auto;
+  position: fixed;
+  width: 100%;
+}
+
+
+.home-container-inner {
+  text-align: center;
+  background: #6c5b7b;
+  position: relative;
+  top: 15%;
+  margin: 0 auto;
+  text-align: center;
+  height: 150px;
+  width: 100%
+}
+
+.home-description {
+  position: relative;
+    top: 120px;
+    margin: 0 auto;
+    text-align: center;
+    width: 75%;
+    border-radius: 0px 10px 0px 5px;
+    font-size: 25px;
+    background-color: floralwhite;
+}
+
+/* .home-container-inner input[type=text] {
+  margin-right: 10px;
+  width: 30%;
+  position: absolute;
+  top: 20px;
+  text-align: center;
+  left: 38%;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 5px;
+  box-sizing: border-box;
+  transition: .3s;
+} */
+
+/* .home-container-inner input[type=password] {
+  margin-right: 10px;
+  width: 30%;
+  position: absolute;
+  left: 38%;
+  text-align: center;
+  bottom: 60px;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 5px;
+  box-sizing: border-box;
+  transition: .3s;
+} */
+
+.login-styling {
+  display: inline;
+  padding: 15px 20px;  
+  border-radius: 0px 5px 2px 5px;
+  background-color: #385170;
+  transition: .5s;
+}
+
+.form-background {
+  position: relative;
+  height: 100%;
+  top: 150px;
+  width: 75%;
+  margin: 0 auto;
+  border-radius: 8px 1px;
+  box-shadow: 2px 1px 11px black;
+}
+  
+/* .home-container-inner input[type=text]:focus {
+  border-color: aliceblue;s
+  box-shadow: 0 0 5px 0 white;
+}
+
+.home-container-inner input[type=password]:focus {
+  border-color: aliceblue;
+  box-shadow: 0 0 5px 0 white;
+} */
+
+.room-search-submit {
+  width: 500px;
+  background-color: white;
+  border: None;
+  color: black;
+  left: 45%;
+  top: 111px;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.room-search-submit:hover {
+  background-color: #f95959;
+  color: white;
+  /*font-style: italic;*/
+  border-radius: 0px 10px 0px 5px;
+  box-shadow: 0 0 5px 0 white;
+}
+
+/* Message categories */
+
+.alert-message {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid aliceblue;
+  background-color: #FAFAFA;
+  color: var(--main-background-color);
+}
+
+.alert-error {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid darkred;
+  background-color: red;
+  color: white;
+}
+
+.alert-info {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid orange;
+  background-color: yellow;
+  color: black;
+}
+
+.alert-success {
+  padding: 12px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  border: 2px solid green;
+  background-color: greenyellow;
+  color: black;
+}
+
+/* create-task.html */
+h1, h4 {
+  margin: 15px 0 4px;
+  font-weight: 400;
+}
+
+h4 {
+  margin: 20px 0 4px;
+  font-weight: 400;
+}
+
+span {
+  color: red;
+}
+
+.small {
+  font-size: 10px;
+  line-height: 18px;
+}
+
+.testbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  padding: 3px;
+}
+
+#create-task-form {
+  width: 100%;
+  padding: 20px;
+  background: transparent;
+}
+
+input, textarea {
+  outline: none;
+  width:500px;
+  height:30px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size:24px;
+  padding:8px 12px;
+}
+
+input:hover, textarea:hover {
+  border: 1px solid #095484;
+  background: #e6eef7;
+}
+
+.text-form {
+  padding: 7px 0;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background: transparent;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.text-form, table {
+  width: 50%;
+}
+
+textarea {
+  width: calc(100% - 6px);
+}
+.btn-block {
+  margin-top: 20px;
+  text-align: center;
+}
+
+button {
+  width: 150px;
+  padding: 10px;
+  border: none;
+  -webkit-border-radius: 5px; 
+  -moz-border-radius: 5px; 
+  border-radius: 5px; 
+  background-color: #095484;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0666a3;
+}
+
+/* room.html accordion CSS */
+
+/* Aligns the heading text to the center. */
+ 
+h1 {
+  text-align: center;
+}
+
+/* Sets the width for the accordion. Sets the margin to 90px on the top and bottom and auto to the left and right */
+
+.accordion {
+  width: 1000px;
+  margin: 90px auto;
+  color: black;
+  background-color: white;
+}
+
+.accordion .container {
+  position: relative;
+  margin: 10px 10px;
+}
+
+/* Positions the labels relative to the .container. Adds padding to the top and bottom and increases font size. Also makes its cursor a pointer */
+
+.accordion .label {
+  position: relative;
+  padding: 10px 0;
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+}
+
+.accordion .label::before {
+  content: '+';
+  color: black;
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  font-size: 30px;
+  transform: translateY(-50%);
+}
+
+/* Hides the content (height: 0), decreases font size, justifies text and adds transition */
+
+.accordion .content {
+  position: relative;
+  background: white;
+  height: 0;
+  font-size: 20px;
+  text-align: justify;
+  width: 780px;
+  overflow: hidden;
+  transition: 0.8s;
+}
+
+.accordion .job {
+  position: relative;
+  background: white;
+  height: 0;
+  font-size: 20px;
+  text-align: justify;
+  width: 780px;
+  overflow: hidden;
+  transition: 0.8s;
+}
+
+/* Adds a horizontal line between the contents */
+
+.accordion hr {
+  width: 100;
+  margin-left: 0;
+  border: 1px solid grey;
+}
+
+.accordion .container.active .content {
+  height: 150px;
+}
+
+.accordion .container.active
+.job {
+  height: 50px;
+}
+
+/* Changes from plus sign to negative sign once active */
+
+.accordion .container.active .label::before {
+  content: '-';
+  font-size: 30px;
+}
+
+.assignee {
+  color: grey;
+}
+
+.date {
+  color: grey;
+}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>Tasks</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% endblock %}
+
+{{ super() }}
+{% block pagetitle %}<i>User Registration</i>{% endblock %}
+
+{% block body %}
+
+<h1>Register User Profile</h1>
+
+{% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert-{{category}}">{{ message }}</div>
+{% endfor %}
+
+<div class="register-container">
+  <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      {{ form.username }}
+      {{ form.password }}
+      {{ form.confirm_pass }}
+      {{ form.submit }}
+  </form>
+</div>
+
+<a href="{{ url_for('login') }}">Already have an account? Login in</a>
+
+{% endblock %}
