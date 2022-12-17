@@ -18,8 +18,9 @@ build/
 docs/_build/
 .vscode
 instance/
-__pycache__/
+core/__pycache__/
 venv/
+
 
 # Coverage reports
 htmlcov/
